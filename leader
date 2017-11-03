@@ -1,0 +1,28 @@
+#!/usr/bin/env php
+<?php
+/**
+ * FrontPHP  [文件描述]
+ *
+ * @category PHP
+ *
+ * @version  Release: 1.0.0
+ *
+ * @author   lru <lru@ximahe.cn>
+ *
+ */
+
+/** 命令行工具的引导文件 */
+$dir = realpath(dirname(__FILE__));
+
+define('ROOT_PATH',$dir.'/public');
+/** 引入自动加载类 */
+include ROOT_PATH.'/../front/src/Loader.php';
+/** 引入函数助手 */
+include ROOT_PATH.'/../front/helper.php';
+/** 引入框架配置 */
+include ROOT_PATH.'/../config/config.php';
+
+Front\Loader::autoload();
+
+Front\Shell::init(Front\Config::get('command'))->run();
+
