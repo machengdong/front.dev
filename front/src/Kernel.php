@@ -23,10 +23,10 @@ class Kernel
 
             !empty($path_info) or $path_info = Request::getPathInfo();
 
-            Routes::dispatch($path_info);
+            App::only(\Front\Routes::class)->dispatch($path_info);
 
-        }catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
+
             self::exceptionHandle($e);
         }
     }

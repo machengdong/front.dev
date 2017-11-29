@@ -17,7 +17,7 @@ use Front\App;
 
 class Home extends Control
 {
-    public function root()
+    public function get()
     {
         return $this->display('site/home.php');
     }
@@ -40,8 +40,6 @@ class Home extends Control
         $result = App::model(\app\model\Document::class)->load('goods')->table('demo')->insert($d);
         $result = App::model(\app\model\Home::class)->get();
         dump($result);
-
-
     }
 
 

@@ -26,20 +26,6 @@ if(!function_exists('getIp')) {
     }
 }
 
-if(!function_exists('cases')) {
-
-    function cases($class)
-    {
-        static $instance;
-
-        if (!isset($instance[$class])) {
-            $instance[$class] = new $class;
-        }
-
-        return $instance[$class];
-    }
-}
-
 if(!function_exists('mkdir_p')) {
     /**
      * 递归创建文件夹

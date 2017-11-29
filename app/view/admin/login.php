@@ -14,7 +14,7 @@
     </div>
     <div class="login-box-body">
         <p class="login-box-msg">Login</p>
-        <form action="/admin/dologin.html" method="post">
+        <form action="/admin/Passport.html" method="post">
             <div class="form-group has-feedback 1">
                 <input type="input" class="form-control" placeholder="Username" name="username" value="">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>

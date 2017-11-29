@@ -9,7 +9,10 @@
  * @author   lru <lru@ximahe.cn>
  *
  */
+
 namespace Front\Mvc;
+
+use Front\App;
 
 class Control
 {
@@ -21,7 +24,7 @@ class Control
 
     public function __construct()
     {
-        $this->session = cases(\Front\Session::class);
+        $this->session = App::only(\Front\Session::class);
 
         $this->view = View::instance();
     }

@@ -16,26 +16,16 @@ use Front\App;
 
 class Passport extends Control
 {
-    /** 后台登陆入口 */
-    public function index()
+
+    public function get()
     {
         return $this->display('admin/login.php');
     }
 
-    /** 后台登陆地址 */
-    public function login()
+    public function post()
     {
         $userMdl = new \app\model\User();
         $result = $userMdl->login(App::input(),$msg);
-
         return ['code'=>$result ? 'succ' : 'fail','msg'=>$msg];
-    }
-
-    /** 退出登陆 */
-    public function logout()
-    {
-        $userMdl = new \app\model\User();
-        $userMdl->logout();
-        \Front\Response::redirect(302,'/admin/login.html');
     }
 }

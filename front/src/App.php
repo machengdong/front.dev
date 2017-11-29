@@ -35,7 +35,7 @@ class App
      */
     public static function control($control)
     {
-        $object = App::instance($control);
+        $object = App::only($control);
         if($object instanceof \Front\Mvc\Control)
         {
             return $object;
@@ -50,7 +50,7 @@ class App
      */
     public static function model($model)
     {
-        $object = App::instance($model);
+        $object = App::only($model);
         if($object instanceof \Front\Mvc\Model)
         {
             return $object;
@@ -77,7 +77,7 @@ class App
     {
         if(!isset(self::$__responseInstance))
         {
-            return self::instance(\Front\Driver\Response\Response::class);
+            return self::only(\Front\Driver\Response\Response::class);
         }else{
             return self::$__responseInstance;
         }
@@ -113,7 +113,7 @@ class App
      * @param $class_name
      * @return mixed
      */
-    private static function instance($class_name)
+    public static function only($class_name)
     {
         if(!isset(self::$__instance[$class_name]))
         {

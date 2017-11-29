@@ -21,33 +21,30 @@ class Routes
     /**
      * 执行请求
      *
-     * @param $object
+     * @param $control
      */
-    public static function dispatch_default($object)
+    public function dispatch_default($control)
     {
         try
         {
-            if(!$object) Response::redirect(302,'/404.html');
+            $controller = App::control($control);
 
-            self::__check_cache();
+            $method = strtolower(Request::getMethod());
 
-            list($control,$method) = explode('@',$object);
-            //$output = App::control($control)->$method();
-            if(method_exists(App::control($control),$method))
-            {
-                $output = call_user_func_array([ App::control($control) , $method ], []);
-            }
-            else
-            {
+            if(!method_exists($controller,$method)) {
                 throw new \Exception("There is no {$control} method in {$method} class");
             }
 
+            Log::info('Start the request .');
+
+            $output = call_user_func_array([$controller , $method ], []);
+
             self::__handle_result($output);
 
-            Response::end($output);
-        }
-        catch (\Exception $e)
-        {
+            Response::write($output);
+            Response::end('');
+
+        } catch (\Exception $e) {
            \Front\Kernel::exceptionHandle($e);
         }
 
@@ -66,17 +63,7 @@ class Routes
 
     }
 
-    /**
-     * 检查缓存
-     *
-     */
-    private static function __check_cache()
-    {
-
-    }
-
-
-    public static function dispatch_apis($routes)
+    public function dispatch_apis($routes)
     {
         Response::redirect(302,'/404.html');
     }
@@ -86,19 +73,15 @@ class Routes
      *
      * @param string $path_info
      */
-    public static function dispatch($path_info = '')
+    public function dispatch($path_info = '/')
     {
-        /** 预解析PATH_INFO */
-        $routes = Routes::preParse($path_info,$module);
-        /** 将api和其他模块分开处理 */
-        switch ($module)
+        if(strpos($path_info,'/api') === 0)
         {
-            case 'api':
-                self::dispatch_apis($routes);
-                break;
-            default:
-                self::dispatch_default($routes);
-                break;
+            $this->dispatch_apis($path_info);
+
+        } else {
+            $control = $this->preParse($path_info);
+            $this->dispatch_default($control);
         }
     }
 
@@ -106,44 +89,25 @@ class Routes
      * 预解析PATH_INFO
      *
      * @param $path_info
-     * @param string $module
-     * @return null
+     * @return $control
      */
-    public static function preParse($path_info,&$module='site')
+    public function preParse($path_info)
     {
-
-        $depth = @strpos($path_info,'/',1);
-        if($depth === false)
-        {
-            $module = 'site';
-            $target = $path_info;
-        }
-        else
-        {
-            $module = substr($path_info,1,$depth-1);
-            $target = substr($path_info,$depth);
-        }
-
-        $routes   = self::load($module);
-
-        if(@array_key_exists($target,$routes))
-        {
-            return $routes[$target];
+        try {
+            if (!defined('DEFAULT_MODULE') || !defined('DEFAULT_CONTROL')) {
+                throw new \Exception("The default module does not exist .");
+            }
+            if ($path_info == '/') {//默认模块//默认控制器
+                $control = '\app\control\\' . DEFAULT_MODULE . '\\' . ucfirst(DEFAULT_CONTROL);
+            } elseif (dirname($path_info) == '/') {//默认模块
+                $control = '\app\control\\' . DEFAULT_MODULE . '\\' . ucfirst(basename($path_info, '.html'));
+            } else {
+                $control = '\app\control' . str_replace('/', '\\', dirname($path_info)) . '\\' . ucfirst(basename($path_info, '.html'));
+            }
+        } catch (\Exception $e) {
+            Kernel::exceptionHandle($e);
         }
 
-        return null;
-
+        return $control;
     }
-
-    /**
-     * 加载路由表
-     *
-     * @param $scene
-     * @return mixed|null
-     */
-    private static function load($scene)
-    {
-        return Config::get("route.{$scene}");
-    }
-
 }
