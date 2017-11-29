@@ -294,6 +294,9 @@ final class Db
         $sql = $this->preHandleSelect($cols);
 
         $result = $this->db()->select($sql);
+
+        $this->seeSql($sql);
+
         return $result;
     }
 
@@ -350,6 +353,11 @@ final class Db
     public function __destruct()
     {
 
+    }
+
+    public function seeSql($sql)
+    {
+        return $sql;
     }
 }
 

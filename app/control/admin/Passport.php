@@ -24,7 +24,7 @@ class Passport extends Control
 
     public function post()
     {
-        $userMdl = new \app\model\User();
+        $userMdl = App::model(\app\model\User::class);
         $result = $userMdl->login(App::input(),$msg);
         return ['code'=>$result ? 'succ' : 'fail','msg'=>$msg];
     }

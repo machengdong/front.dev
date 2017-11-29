@@ -26,8 +26,9 @@ return [
             'name'=>'文章管理',
             'display'=>true,
             'sublevel'=>[
-                ['href'=>'/admin/doc/publish.html','name'=>'发布文章','display'=>true],
-                ['href'=>'/admin/doc/list.html','name'=>'文章列表','display'=>true],
+                ['href'=>'/admin/document/save.html','name'=>'发布文章','display'=>true],
+                ['href'=>'/admin/document/dlist.html','name'=>'文章列表','display'=>true],
+                ['href'=>'/admin/document/module.html','name'=>'模块管理','display'=>true],
             ]
 
         ],
@@ -42,8 +43,4 @@ return [
         ]
 
     ],
-    'site' =>
-    [
-
-    ]
 ];

@@ -19,11 +19,12 @@ class Base extends Control
 {
     public function __construct()
     {
+        parent::__construct();
         /** 后台基础控制器 */
         $userMdl = App::model(\app\model\User::class);
         if(!$userMdl->isLogin($userInfo))
         {
-            \Front\Response::redirect(302,'/admin/login.html');
+            \Front\Response::redirect(302,'/admin/Passport.html');
         }
         $this->userInfo = $userInfo;
     }

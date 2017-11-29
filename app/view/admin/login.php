@@ -73,7 +73,7 @@ $(document).ready(function(){
                 function(e) {
                     if(e.code == 'succ')
                     {
-                        popup.message('登陆成功','/admin/desktop.html');
+                        popup.message('登陆成功','/admin/desktop/main.html');
                     }else{
                         popup.message(e.msg);
                     }

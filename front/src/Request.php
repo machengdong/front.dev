@@ -69,7 +69,7 @@ class Request
     {
         $server    = $_SERVER;
 
-        $method = $server['HTTP_X_HTTP_METHOD_OVERRIDE'] ? : ($server['REQUEST_METHOD'] ? : '');
+        $method = isset($server['HTTP_X_HTTP_METHOD_OVERRIDE']) ? $server['HTTP_X_HTTP_METHOD_OVERRIDE'] : ($server['REQUEST_METHOD'] ? : '');
 
         return $method;
     }

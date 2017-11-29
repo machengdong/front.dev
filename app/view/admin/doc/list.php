@@ -17,7 +17,7 @@
         </tr>
         <?php foreach ($result as $val){ ?>
             <tr style="background-color: #ece7e7;height: 28px; text-align: center;">
-                <td><a href="">查看</a> |  <a href="/admin/doc/update/status.html?u=<?=$val['start_status']?>&id=<?=$val['doc_id']?>"><?php echo $val['start_status'] == 'Y'?'关闭':'开启'; ?></a> </td>
+                <td><a href="">查看</a> |  <a href="/admin/document/start.html?u=<?=$val['start_status']?>&id=<?=$val['doc_id']?>"><?php echo $val['start_status'] == 'Y'?'关闭':'开启'; ?></a> </td>
                 <td><?php echo strlen($val['title']) > 30 ? mb_substr($val['title'],0,30).'...':$val['title']; ?></td>
                 <td><?php echo $val['start_status'] == 'Y'?'启用':'禁用'; ?></td>
                 <td><?php echo date('Y-m-d H:i:s',$val['savetime']); ?></td>

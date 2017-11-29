@@ -41,17 +41,17 @@ class Session
         if($this->sess_start == false)
         {
             if (isset($_GET[$this->sess_key]) && $_GET[$this->sess_key]) {
-                $this->__checkSessId();
-                $_SESSION = $this->__getSession();
                 $this->sessionId = $_GET[$this->sess_key];
+                $this->__checkSessId();
+                $_SESSION = $this->__getSession();
             } elseif (isset($_COOKIE[$this->sess_key]) && $_COOKIE[$this->sess_key]) {
-                $this->__checkSessId();
-                $_SESSION = $this->__getSession();
                 $this->sessionId = $_COOKIE[$this->sess_key];
-            } elseif (isset($_POST[$this->sess_key]) && $_POST[$this->sess_key]) {
                 $this->__checkSessId();
                 $_SESSION = $this->__getSession();
+            } elseif (isset($_POST[$this->sess_key]) && $_POST[$this->sess_key]) {
                 $this->sessionId = $_POST[$this->sess_key];
+                $this->__checkSessId();
+                $_SESSION = $this->__getSession();
             } else {
                 $this->sessionId = $this->genSessionId();
                 Cookie::set($this->sess_key, $this->sessionId, time() + $this->expire);
@@ -71,7 +71,7 @@ class Session
      */
     public function __checkSessId()
     {
-        if(!empty($this->sessionId) || strlen($this->sessionId) !== 32)
+        if(empty($this->sessionId) || strlen($this->sessionId) !== 32)
         {
             trigger_error('Session_id is illegal',E_USER_ERROR);
         }

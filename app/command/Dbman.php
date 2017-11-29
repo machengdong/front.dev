@@ -17,8 +17,8 @@ class Dbman implements Command
 
     public function exec($param = [])
     {
-        echo "等待功能完善。\n";
-        //$db_object = new \Front\Dbman();
-        //$db_object->update();
+        //echo "等待功能完善。\n";
+        $db_object = new \Front\Dbman();
+        $db_object->update();
     }
 }

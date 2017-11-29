@@ -12,6 +12,7 @@
 namespace app\model;
 
 use Front\Mvc\Model;
+use Front\App;
 
 class User extends Model
 {
@@ -26,7 +27,8 @@ class User extends Model
             $msg = '帐户名或密码为空。';
             return false;
         }
-        $userInfo = $this->getRow('*',['account'=>$username]);
+        $userInfo = $this->get('*',['account'=>$username]);
+        $userInfo = $userInfo[0];
         if(!$userInfo || !$userInfo['password'])
         {
             $msg = '帐户不存在。';
@@ -48,7 +50,7 @@ class User extends Model
 
     public function logout()
     {
-        cases(\Front\Session::class)->start();
+        App::only(\Front\Session::class)->start();
         foreach ($this->userLoginInfoItem as $k=>$v)
         {
             $_SESSION[$v] = '';
@@ -60,17 +62,18 @@ class User extends Model
 
     public function setLoginInfo(array $userInfo)
     {
-        cases(\Front\Session::class)->start();
+        App::only(\Front\Session::class)->start();
         foreach ($this->userLoginInfoItem as $k=>$v)
         {
             $_SESSION[$v] = $userInfo[$k];
         }
+        //var_dump($_SESSION);
         return true;
     }
 
     public function getLoginInfo(&$userInfo = [])
     {
-        cases(\Front\Session::class)->start();
+        App::only(\Front\Session::class)->start();
         foreach ($this->userLoginInfoItem as $k=>$v)
         {
             $userInfo[$v] = $_SESSION[$v];
@@ -82,6 +85,7 @@ class User extends Model
     {
         $this->getLoginInfo($userInfo);
 
+        //var_dump($userInfo);die;
         foreach ($this->userLoginInfoItem as $k=>$v)
         {
             if(!$userInfo[$v])
